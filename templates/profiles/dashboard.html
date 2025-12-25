@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+
+<div class="profile-card">
+    <h1>HELLO, {{ username }}! 👋</h1>
+    <p>дата вступления: {{ joined_at }}</p>
+</div>
+
+<div class="forecast-block {{ forecast.level }}">
+    <h3>{{ forecast.title }}</h3>
+    <p>{{ forecast.text }}</p>
+    <div class="progress-bar" style="margin: 1rem 0; height: 10px; background: #e1e1e1; border-radius: 5px;">
+        <div style="width: {{ precent_of_success }}%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 5px;"></div>
+    </div>
+    <p>progress: <strong>{{ precent_of_success }}%</strong></p>
+</div>
+
+<h2>Мои проекты</h2>
+<div class="grid">
+    {% for project in projects %}
+        <div class="project-card">
+            <h3>{{ project.name }}</h3>
+            <div style="margin-top: 1rem;">
+                <a class="add-btn" href="{{ url_for('project_detail', project_id=project.id) }}">OOPEN</a>
+                <a class="add-btn" href="{{ url_for('add_task', project_id=project.id) }}">add task</a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="project-card" style="display: flex; align-items: center; justify-content: center;">
+        <a class="add-btn" href="{{ url_for('add_project') }}">create project</a>
+    </div>
+</div>
+
+{% if issues %}
+<h2>Active Issuses</h2>
+<div class="grid">
+    {% for issue in issues %}
+        <div class="task-card {% if issue[1] %}done{% endif %}">
+            <h4>{{ issue[0] }}</h4>
+            <p><strong>Проект:</strong> {{ issue[3] }}</p>
+            <p><strong>Дедлайн:</strong> {{ issue[2] }}</p>
+            <p><strong>Статус:</strong>
+                {% if issue[1] %}
+                    <span style="color: #28a745;">Выполнено ({{ issue[5] if issue[5] else '' }})</span>
+                {% else %}
+                    <span style="color: #667eea;">В работе</span>
+                {% endif %}
+            </p>
+
+            <div style="margin-top: 1rem;">
+                {% if not issue[1] %}
+                    <a class="add-btn" href="{{ url_for('close_task', task_id=issue[4]) }}" style="background: #28a745;">
+                        завершить
+                    </a>
+                {% else %}
+                    <a class="add-btn" href="{{ url_for('reopen_task', task_id=issue[4]) }}" style="background: #ffc107;">
+                        снова в работе
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+    <a href="{{ url_for('index') }}">DevTracker</a>
+    <nav>
+        {% if session.get('user_id') %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('projects') }}">Project</a>
+            <a href="{{ url_for('logout') }}">Exit</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Войти</a>
+            <a href="{{ url_for('register') }}">Регистрация</a>
+        {% endif %}
+    </nav>
+</header>
+<main>
+    {% block content %}{% endblock %}
+</main>
+</body>
+
+<button id="floating-btn" style="display: none;">Это очень круто!</button>
+
+<script>
+
+document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+`);
+
+setInterval(() => {
+    let btn = document.createElement('button');
+    btn.textContent = 'LOL';
+
+    btn.style.cssText = `
+        position:fixed;
+        background:#ff4757;
+        color:white;
+        border:none;
+        padding:10px;
+        border-radius:50%;
+        cursor:pointer;
+        top:${Math.random()*80}vh;
+        left:${Math.random()*80}vw;
+        z-index:9999;
+        animation: spin 1s linear infinite;
+    `;
+
+    document.body.appendChild(btn);
+    btn.onclick = () => { alert('HAHHAHA'); btn.remove(); };
+    setTimeout(() => btn.remove(), 3000);
+}, 2000);
+</script>
+
+</html>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Проекты{% endblock %}
+{% block content %}
+<h1>Мои проекты</h1>
+<div class="grid">
+    {% for project in projects %}
+        <div class="project-card">
+            <h3>{{ project.name }}</h3>
+            {% if project.tags %}
+                <div style="margin: 10px 0;">
+                    {% for tag in project.tags %}
+                        <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <a class="add-btn" href="{{ url_for('project_detail', project_id=project.id) }}">Открыть</a>
+        </div>
+    {% endfor %}
+    <div class="project-card">
+        <a class="add-btn" href="{{ url_for('add_project') }}">+ Добавить проект</a>
+    </div>
+</div>
+{% endblock %}

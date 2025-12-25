@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<div class="profile-card">
+    <h1>DevTracker</h1>
+    <p>Следите за своими проектами и задачами в одном месте (на моем сайте)</p>
+    <a class="add-btn" href="{{ url_for('register') }}">Создать аккаунт</a>
+    <a class="add-btn" href="{{ url_for('login') }}">Войти</a>
+</div>
+{% endblock %}

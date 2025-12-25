@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Добавить проект{% endblock %}
+{% block content %}
+<div class="profile-card">
+    <h2>Добавить проект</h2>
+    {% if error %}
+        <p style="color:red">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <input type="text" name="name" placeholder="Название проекта" required>
+        <input type="text" name="tags" placeholder="Теги очень хорошие">
+        <button type="submit">Добавить проект</button>
+    </form>
+</div>
+{% endblock %}

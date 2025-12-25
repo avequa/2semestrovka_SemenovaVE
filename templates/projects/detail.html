@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ project.name }}{% endblock %}
+{% block content %}
+
+<div class="profile-card">
+    <h1>{{ project.name }}</h1>
+    <div style="margin-top: 1rem;">
+        <a class="add-btn" href="{{ url_for('add_task', project_id=project.id) }}">+ Добавить задачу</a>
+        <a class="add-btn" href="{{ url_for('projects') }}"><- Назад к проектам</a>
+    </div>
+</div>
+
+{% if issues %}
+    <h2>Задачи проекта</h2>
+    <div class="grid">
+        {% for task in issues %}
+            <div class="task-card {% if task.is_closed %}done{% endif %}">
+                <h4>{{ task.title }}</h4>
+                <p><strong>Дедлайн:</strong> {{ task.due_date }}</p>
+                {% if task.days_left is not none %}
+                    <p><strong>Осталось дней:</strong>
+                        {% if task.days_left < 0 %}
+                            <span style="color: #dc3545;">{{ -task.days_left }} дней назад</span>
+                        {% elif task.days_left == 0 %}
+                            <span style="color: #ffc107;">Сегодня!</span>
+                        {% else %}
+                            <span style="color: #28a745;">{{ task.days_left }} дней</span>
+                        {% endif %}
+                    </p>
+                {% endif %}
+                <p><strong>Статус:</strong>
+                    {% if task.is_closed %}
+                        <span style="color: #28a745;">Выполнено ({{ task.closed_at }})</span>
+                    {% else %}
+                        <span style="color: #667eea;">В работе</span>
+                    {% endif %}
+                </p>
+
+                <div style="margin-top: 1rem;">
+                    {% if not task.is_closed %}
+                        <a class="add-btn" href="{{ url_for('close_task', task_id=task.id) }}"
+                           style="background: #28a745; padding: 0.5rem 1rem; font-size: 0.9rem;">
+                            Выполнено
+                        </a>
+                    {% else %}
+                        <a class="add-btn" href="{{ url_for('reopen_task', task_id=task.id) }}"
+                           style="background: #ffc107; padding: 0.5rem 1rem; font-size: 0.9rem;">
+                            Открыть
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="profile-card" style="text-align: center;">
+        <h3>В этом проекте пока нет задач</h3>
+        <p>Вам очень повезло!</p>
+        <a class="add-btn" href="{{ url_for('add_task', project_id=project.id) }}">+ Создать задачу</a>
+    </div>
+{% endif %}
+
+{% endblock %}
