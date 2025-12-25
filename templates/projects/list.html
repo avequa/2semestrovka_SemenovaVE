@@ -13,9 +13,20 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <a class="add-btn" href="{{ url_for('project_detail', project_id=project.id) }}">Открыть</a>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <a class="add-btn" href="{{ url_for('project_detail', project_id=project.id) }}">Открыть</a>
+
+                <form method="POST" action="{{ url_for('delete_project', project_id=project.id) }}" style="display: inline;">
+                    <button type="submit" class="delete-btn"
+                            onclick="return confirm('Удалить проект \"{{ project.name }}\"? Все задачи в проекте также будут удалены.')">
+                        Удалить
+                    </button>
+                </form>
+            </div>
         </div>
     {% endfor %}
+
     <div class="project-card">
         <a class="add-btn" href="{{ url_for('add_project') }}">+ Добавить проект</a>
     </div>

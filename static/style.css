@@ -158,6 +158,30 @@ button[type="submit"]:hover {
     background: linear-gradient(135deg, #00ff99 0%, #00dd77 100%);
 }
 
+/* Добавьте это в конец файла style.css */
+
+.delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ff4757 0%, #ff3838 100%);
+    color: white;
+    padding: 0.85rem 1.8rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.delete-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #ff5e6d 0%, #ff5252 100%);
+}
+
 .forecast-block {
     text-align: center;
     margin: 2.5rem 0;

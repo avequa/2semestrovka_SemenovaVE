@@ -5,7 +5,6 @@ import datetime
 app = Flask(__name__)
 app.secret_key = 'very-secret-key'
 
-
 @app.route('/')
 def index():
     if session.get('user_id'):
@@ -206,6 +205,31 @@ def add_project():
 
     return render_template('projects/add.html')
 
+
+@app.route('/project/<int:project_id>/delete', methods=['POST'])
+def delete_project(project_id):
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login'))
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id FROM projects WHERE id=%s AND user_id=%s", (project_id, user_id))
+    if not cur.fetchone():
+        cur.close()
+        conn.close()
+        return redirect(url_for('projects'))
+
+    cur.execute("DELETE FROM issues WHERE project_id=%s", (project_id,))
+    cur.execute("DELETE FROM project_tags WHERE project_id=%s", (project_id,))
+    cur.execute("DELETE FROM projects WHERE id=%s", (project_id,))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return redirect(url_for('projects'))
 
 @app.route('/tasks/add/<int:project_id>', methods=['GET', 'POST'])
 def add_task(project_id):
