@@ -26,12 +26,12 @@
 
     `pip install -r requirements.txt`
 
-3. Файл `db.py` поменять переменные параметров подключения:
+3. В файле `db.py` поменять переменные параметров подключения:
 
-    `dbname='',`
+    `dbname=''`
     `user=''`
-    `password='',`
-    `host='',`
+    `password=''`
+    `host=''`
     `port=`
 
 ## Запуск
